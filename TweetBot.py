@@ -1,3 +1,5 @@
+import tweepy, time, sys, json, os
+
 class tweetBot:
     
     def __init__(self):
