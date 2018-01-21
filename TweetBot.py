@@ -4,10 +4,10 @@ class tweetBot:
     
     def __init__(self):
         #enter the corresponding information from your Twitter application:
-        CONSUMER_KEY = 'QSJ8J1xwv2pfLelX8s1D8e7pN'#keep the quotes, replace this with your consumer key
-        CONSUMER_SECRET = 'pwvkZBoOjr5IR5LP81T4YCbZXwmvPZqniE5PkZ39GDpuetD5cJ'#keep the quotes, replace this with your consumer secret key
-        ACCESS_KEY = '921162870775148545-Cc9UaUQXIZVPjR0dMFaLyk3Vycb8qr1'#keep the quotes, replace this with your access token
-        ACCESS_SECRET = 'ME7sxcS7gJXdRJDCnUzzYWiNrhyAmgCl70uSG1V3llHfa'#keep the quotes, replace this with your access token secret
+        CONSUMER_KEY = ''#keep the quotes, replace this with your consumer key
+        CONSUMER_SECRET = ''#keep the quotes, replace this with your consumer secret key
+        ACCESS_KEY = ''#keep the quotes, replace this with your access token
+        ACCESS_SECRET = ''#keep the quotes, replace this with your access token secret
         auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
         auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
         self._api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True) 
