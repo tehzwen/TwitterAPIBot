@@ -7,12 +7,6 @@ import threading
 import os
 from TweetBot import *
 
-#x = api.get_user(565921539)
-
-#print (x)
-#api.create_friendship('jaydenlaturnus') # follows user in argument
-
-#x = api.friends_ids('jaydenlaturnus') # returns a list of the ids of all those followed by the user in the arguments
 
 class Application(Frame):
     
