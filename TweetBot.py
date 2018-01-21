@@ -11,7 +11,7 @@ class tweetBot:
         auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
         auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
         self._api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True) 
-        self._username = 'macewanstats'
+        self._username = ''
         self._specificsFile = 'spec.txt'        
         self._followerCount = 0
         self._followingCount = 0
