@@ -1,20 +1,29 @@
 import tweepy, time, sys, json, os
+from wordFrequencyCounter import *
+import json
 
 class tweetBot:
     
     def __init__(self):
+
+        with open('apiKeys.json') as f:
+            data = json.load(f)
+
         #enter the corresponding information from your Twitter application:
-        CONSUMER_KEY = ''#keep the quotes, replace this with your consumer key
-        CONSUMER_SECRET = ''#keep the quotes, replace this with your consumer secret key
-        ACCESS_KEY = ''#keep the quotes, replace this with your access token
-        ACCESS_SECRET = ''#keep the quotes, replace this with your access token secret
+        CONSUMER_KEY = data["CONSUMER_KEY"]#keep the quotes, replace this with your consumer key
+        CONSUMER_SECRET = data["CONSUMER_SECRET"]#keep the quotes, replace this with your consumer secret key
+        ACCESS_KEY = data["ACCESS_KEY"]#keep the quotes, replace this with your access token
+        ACCESS_SECRET = data["ACCESS_SECRET"]#keep the quotes, replace this with your access token secret
         auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
         auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
-        self._api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True) 
-        self._username = ''
+        self._api = tweepy.API(auth, retry_count=5, retry_delay=60) 
+        self._username = 'tehzwen'
         self._specificsFile = 'spec.txt'        
         self._followerCount = 0
         self._followingCount = 0
+        self._rawTweetTexts = []
+        self._fixedTweetTexts = []
+        self._frequencyDict = {}
         
         
     def getinitData(self):
@@ -52,11 +61,32 @@ class tweetBot:
     
     def searchUser(self, val):
         user = self._api.get_user(val)
+        status = user.status
         username = user.name
         followercount = user.followers_count
+        print (status)
         
-        print(user.followers)
-        print (username, followercount)
+    def getUserTweets(self, user, numOfTweets):
+        
+        try:
+            for pages in tweepy.Cursor(self._api.user_timeline, id=user, tweet_mode='extended').pages(numOfTweets):      
+
+                for page in pages:
+                    #print(page._json["full_text"])
+                    self._rawTweetTexts.append(page._json["full_text"])
+        
+        except tweepy.TweepError:
+            print("WAIT BBITCH")
+
+
+    def getWordFrequency(self):
+        for tweet in self._rawTweetTexts:
+            fixedPunctVal = removePuncuation(tweet, "realDonaldTrump")
+            if (len(fixedPunctVal) > 0):
+                self._fixedTweetTexts.append(fixedPunctVal)
+
+        self._frequencyDict = countFrequency(self._fixedTweetTexts)
+        #print(self._frequencyDict)
 
 
     def unfollowSomeone(self, val):
